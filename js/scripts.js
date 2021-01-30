@@ -45,3 +45,19 @@ let cocktailList = [
       'Shake all ingredients with ice, strain into a cocktail glass, and serve.',
   },
 ];
+
+for (let i = 0; cocktailList[i]; i++) {
+  let text = 'Cocktail name: ' + cocktailList[i].name + ' Category: ' + cocktailList[i].category + ' ';
+  document.write(text+ '\n' + 'Ingredients: ');
+  
+  let drinkIngredients = '';
+
+  for (let j = 0; j < cocktailList[i].ingredients.length; j++) {
+    if(j < cocktailList[i].ingredients.length-1)/*check if it is NOT the last word, only have commas if another word follows*/
+      drinkIngredients = drinkIngredients + cocktailList[i].ingredients[j].trim() + ', ';
+    else
+      drinkIngredients = drinkIngredients + 'and ' + cocktailList[i].ingredients[j].trim() + '.';
+  }
+  document.write(drinkIngredients + "\n");
+}
+
