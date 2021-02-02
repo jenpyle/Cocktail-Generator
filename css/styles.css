@@ -1,3 +1,13 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h3 {
+  display: inline-block;
+}
+
+.container {
+  margin: 20px;
 }
