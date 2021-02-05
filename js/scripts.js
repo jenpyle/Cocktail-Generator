@@ -1,3 +1,5 @@
+// prettier-ignore
+
 let cocktailRepository = (function () {
   let cocktailList = [];
 
@@ -20,8 +22,13 @@ let cocktails = [
     name: "Hunter's Moon",
     category: 'Cocktail',
     glass: 'Balloon Glass',
-    // prettier-ignore
-    ingredients: ['Vermouth','Maraschino Cherry','Sugar Syrup','Lemonade','Blackberries',],
+    ingredients: [
+      'Vermouth',
+      'Maraschino Cherry',
+      'Sugar Syrup',
+      'Lemonade',
+      'Blackberries',
+    ],
     instructions:
       'Put the Bombay Sapphire, Martini Bianco, sugar syrup & blackberries in a cocktail shaker with lots of ice and shake vigorously before pouring into a balloon glass, topping up with lemonade and garnishing with a wedge of orange.',
   },
@@ -36,8 +43,15 @@ let cocktails = [
     name: 'Mulled Wine',
     category: 'Punch / Party Drink',
     glass: 'Collins Glass',
-    // prettier-ignore
-    ingredients: ['Water','Sugar','Cloves','Cinnamon','Lemon peel','Red wine','Brandy',],
+    ingredients: [
+      'Water',
+      'Sugar',
+      'Cloves',
+      'Cinnamon',
+      'Lemon peel',
+      'Red wine',
+      'Brandy',
+    ],
     instructions:
       'Simmer 3 cups water with, sugar, cloves, cinnamon sticks, and lemon peel in a stainless steel pot for 10 minutes. Add wine heat to a "coffee temperature" (DO NOT BOIL) then add the brandy.',
   },
@@ -58,18 +72,41 @@ let cocktails = [
   },
 ];
 
-cocktailRepository.add(cocktails);
-console.log(cocktailRepository.getAll());
+function addCocktails() {
+  for (let i = 0; i < cocktails.length; i++) {
+    cocktailRepository.add(cocktails[i]);
+    console.log(cocktails[i]);
+  }
+}
 
-cocktailRepository.forEach(function (drink) {
+function printIngredients(ingredients) {
+  let ingredientsList = '';
+  for (let i = 0; ingredients[i]; i++) {
+    if (i < ingredients.length - 1) {
+      ingredientsList = ingredientsList + ingredients[i].trim() + ', ';
+    } else {
+      ingredientsList =
+        ingredientsList + 'and ' + ingredients[i].trim() + '.<br /><br />';
+    }
+  }
+  document.write('<h3>Ingredients:</h3> ' + ingredientsList);
+}
+
+addCocktails();
+
+cocktailRepository.getAll().forEach(function (drink) {
+  let container = '<div class="container">';
   document.write(
-    '<h3>Cocktail Name:</h3> ' +
+    container +
+      '<h3>Cocktail Name:</h3> ' +
       drink.name +
       '<br /><br /><h3>Category:</h3> ' +
       drink.category +
-      '<br /><br /><h3>Ingredients:</h3> ' +
-      drink.ingredients +
       '<br /><br />'
+  );
+  printIngredients(drink.ingredients);
+  document.write(
+    '<h3>Instructions:</h3> ' + drink.instructions + '<br></br></div>'
   );
 });
 
