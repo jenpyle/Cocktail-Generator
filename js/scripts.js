@@ -1,5 +1,3 @@
-// prettier-ignore
-
 let cocktailRepository = (function () {
   let cocktailList = [];
 
@@ -11,9 +9,29 @@ let cocktailRepository = (function () {
     return cocktailList;
   }
 
+  function addListItem(drink) {
+    let element = document.querySelector('.cocktail-list');
+    let listItem = document.createElement('li');
+    let button = document.createElement('button');
+    button.innerText = drink.name;
+    button.classList.add('drink-info-button');
+
+    button.addEventListener('click', showDetails);
+
+    listItem.appendChild(button); //append button to list item
+    showDetails(drink);
+    element.appendChild(listItem); //append list item to parent
+  }
+
+  function showDetails(drink) {
+    console.log(drink.name);
+  }
+
   return {
     add: add,
     getAll: getAll,
+    addListItem: addListItem,
+    showDetails: showDetails,
   };
 })();
 
@@ -75,7 +93,6 @@ let cocktails = [
 function addCocktails() {
   for (let i = 0; i < cocktails.length; i++) {
     cocktailRepository.add(cocktails[i]);
-    console.log(cocktails[i]);
   }
 }
 
@@ -95,50 +112,5 @@ function printIngredients(ingredients) {
 addCocktails();
 
 cocktailRepository.getAll().forEach(function (drink) {
-  let container = '<div class="container">';
-  document.write(
-    container +
-      '<h3>Cocktail Name:</h3> ' +
-      drink.name +
-      '<br /><br /><h3>Category:</h3> ' +
-      drink.category +
-      '<br /><br />'
-  );
-  printIngredients(drink.ingredients);
-  document.write(
-    '<h3>Instructions:</h3> ' + drink.instructions + '<br></br></div>'
-  );
+  cocktailRepository.addListItem(drink);
 });
-
-// FOR-LOOP function
-// function printCocktails() {
-//   let container = '<div class="container">';
-//   document.write(container);
-//   for (let i = 0; cocktails[i]; i++) {
-//     let text =
-//       '<h3>Cocktail name:</h3> ' +
-//       cocktails[i].name +
-//       '<br /> <h3>Category: </h3>' +
-//       cocktails[i].category +
-//       ' <br />';
-//     document.write(text + '<h3>Ingredients:</h3> ');
-//     let drinkIngredients = '';
-
-//     for (let j = 0; j < cocktails[i].ingredients.length; j++) {
-//       if (j < cocktails[i].ingredients.length - 1) {
-//         /*check if it is NOT the last word, only have commas if another word follows*/
-//         drinkIngredients =
-//           drinkIngredients + cocktails[i].ingredients[j].trim() + ', ';
-//       } else {
-//         drinkIngredients =
-//           drinkIngredients +
-//           'and ' +
-//           cocktails[i].ingredients[j].trim() +
-//           '.<br /><br />';
-//       }
-//     }
-//     document.write(drinkIngredients);
-//   }
-//   document.write('</div>');
-// }
-// printCocktails();

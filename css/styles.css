@@ -1,7 +1,27 @@
+:root {
+  --primary-color: #357b70;
+  --secondary-color: #e0b354;
+  --dark-grey: #2b2b2b;
+  --primary-background-color: LavenderBlush;
+  --color1: #ffdce7;
+  --color2: #ffe1eb;
+  --secondary-background-color: Linen;
+  --primary-accent-color: Rosybrown;
+  --selected-link-color: #489c79;
+  --visited-color: #05676e;
+  --font-weight: bold;
+}
+
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  padding: 10px;
+}
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 400;
+  background-color: var(--primary-background-color);
+  line-height: normal;
 }
 
 h3 {
@@ -10,4 +30,42 @@ h3 {
 
 .container {
   margin: 20px;
+}
+
+.drink-button,
+button {
+  /*always add transitions to default states*/
+  /* overwrites browser defaults */
+  border: none;
+  /* display: block; */
+  /* takes the font from the outer container */
+  font-family: inherit;
+  background-color: var(--primary-color);
+  color: var(--secondary-background-color);
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 3px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  transition: 0.4s opacity;
+}
+
+button:hover,
+button:focus,
+.drink-button:hover,
+.drink-button:focus {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.cocktail-list {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  align-items: center;
+}
+
+.cocktail-list button {
+  width: 300px;
+  height: 50px;
+  font-size: larger;
 }
