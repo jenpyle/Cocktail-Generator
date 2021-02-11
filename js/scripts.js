@@ -15,15 +15,16 @@ let cocktailRepository = (function () {
     let button = document.createElement('button');
     button.innerText = drink.name;
     button.classList.add('drink-info-button');
-
-    button.addEventListener('click', showDetails);
-
+    button.addEventListener('click', function () {
+      showDetails(drink);
+    }); //Event Listener
     listItem.appendChild(button); //append button to list item
-    showDetails(drink);
     element.appendChild(listItem); //append list item to parent
+    showDetails(drink); //call new function inside addListItem() after button is appended to DOM
   }
 
   function showDetails(drink) {
+    //function that’s dedicated to adding the event listener to the newly created button
     console.log(drink.name);
   }
 
