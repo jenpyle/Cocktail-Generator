@@ -1,8 +1,14 @@
 let cocktailRepository = (function () {
   let cocktailList = [];
+  let apiUrl =
+    'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail';
 
   function add(drink) {
-    cocktailList.push(drink);
+    if (typeof drink === 'object' && 'strDrink' in drink) {
+      cocktailList.push(drink);
+    } else {
+      console.log('Drink object is incorrect');
+    }
   }
 
   function getAll() {
@@ -24,8 +30,36 @@ let cocktailRepository = (function () {
   }
 
   function showDetails(drink) {
-    //function that’s dedicated to adding the event listener to the newly created button
-    console.log(drink.name);
+    loadDetails(drink).then(function () {
+      console.log(drink);
+    });
+  }
+
+  // function showDetails(drink) {
+  //   //function that’s dedicated to adding the event listener to the newly created button
+  //   console.log(drink.name);
+  // }
+
+  function loadList() {
+    return fetch(apiUrl)
+      .then(function (response) {
+        console.log(response);
+        return response.json();
+      })
+      .then(function (json) {
+        console.log(json);
+        console.log(json.results);
+        json.results.forEach(function (item) {
+          let drinks = {
+            name: item.strDrink,
+            // detailsUrl: item.url
+          };
+          add(drinks);
+        });
+      })
+      .catch(function (e) {
+        console.error(e);
+      });
   }
 
   return {
@@ -33,85 +67,38 @@ let cocktailRepository = (function () {
     getAll: getAll,
     addListItem: addListItem,
     showDetails: showDetails,
+    loadList: loadList,
   };
 })();
 
-let cocktails = [
-  {
-    name: "Hunter's Moon",
-    category: 'Cocktail',
-    glass: 'Balloon Glass',
-    ingredients: [
-      'Vermouth',
-      'Maraschino Cherry',
-      'Sugar Syrup',
-      'Lemonade',
-      'Blackberries',
-    ],
-    instructions:
-      'Put the Bombay Sapphire, Martini Bianco, sugar syrup & blackberries in a cocktail shaker with lots of ice and shake vigorously before pouring into a balloon glass, topping up with lemonade and garnishing with a wedge of orange.',
-  },
-  {
-    name: 'Brigadier',
-    category: 'Cocktail',
-    glass: 'Coupe glass',
-    ingredients: ['Hot Chocolate', 'Green Chartreuse', 'Cherry Heering'],
-    instructions: 'Mix ingredients in a warmed mug and stir.',
-  },
-  {
-    name: 'Mulled Wine',
-    category: 'Punch / Party Drink',
-    glass: 'Collins Glass',
-    ingredients: [
-      'Water',
-      'Sugar',
-      'Cloves',
-      'Cinnamon',
-      'Lemon peel',
-      'Red wine',
-      'Brandy',
-    ],
-    instructions:
-      'Simmer 3 cups water with, sugar, cloves, cinnamon sticks, and lemon peel in a stainless steel pot for 10 minutes. Add wine heat to a "coffee temperature" (DO NOT BOIL) then add the brandy.',
-  },
-  {
-    name: 'Hot Creamy Bush',
-    category: ' Coffee  / Tea ',
-    glass: ' Irish coffee cup ',
-    ingredients: [' Irish whiskey ', ' Baileys irish cream ', ' Coffee '],
-    instructions: ' Combine all ingredients in glass ',
-  },
-  {
-    name: 'Applecar',
-    category: 'Ordinary Drink',
-    glass: 'Cocktail glass',
-    ingredients: ['Applejack', 'Triple sec', 'Lemon juice'],
-    instructions:
-      'Shake all ingredients with ice, strain into a cocktail glass, and serve.',
-  },
-];
-
-function addCocktails() {
-  for (let i = 0; i < cocktails.length; i++) {
-    cocktailRepository.add(cocktails[i]);
-  }
-}
-
-function printIngredients(ingredients) {
-  let ingredientsList = '';
-  for (let i = 0; ingredients[i]; i++) {
-    if (i < ingredients.length - 1) {
-      ingredientsList = ingredientsList + ingredients[i].trim() + ', ';
-    } else {
-      ingredientsList =
-        ingredientsList + 'and ' + ingredients[i].trim() + '.<br /><br />';
-    }
-  }
-  document.write('<h3>Ingredients:</h3> ' + ingredientsList);
-}
-
-addCocktails();
-
-cocktailRepository.getAll().forEach(function (drink) {
-  cocktailRepository.addListItem(drink);
+cocktailRepository.loadList().then(function () {
+  // Now the data is loaded!
+  cocktailRepository.getAll().forEach(function (drink) {
+    cocktailRepository.addListItem(drink);
+  });
 });
+
+// function addCocktails() {
+//   for (let i = 0; i < cocktails.length; i++) {
+//     cocktailRepository.add(cocktails[i]);
+//   }
+// }
+
+// function printIngredients(ingredients) {
+//   let ingredientsList = '';
+//   for (let i = 0; ingredients[i]; i++) {
+//     if (i < ingredients.length - 1) {
+//       ingredientsList = ingredientsList + ingredients[i].trim() + ', ';
+//     } else {
+//       ingredientsList =
+//         ingredientsList + 'and ' + ingredients[i].trim() + '.<br /><br />';
+//     }
+//   }
+//   document.write('<h3>Ingredients:</h3> ' + ingredientsList);
+// }
+
+// addCocktails();
+
+// cocktailRepository.getAll().forEach(function (drink) {
+//   cocktailRepository.addListItem(drink);
+// });
