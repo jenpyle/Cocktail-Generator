@@ -19,11 +19,13 @@ let cocktailRepository = (function () {
   }
 
   function loadList() {
+    showLoadingIcon();
     return fetch(apiUrl)
       .then(function (response) {
         return response.json();
       })
       .then(function (json) {
+        hideLoadingIcon();
         json.drinks.forEach(function (item) {
           let drinks = {
             category: item.strCategory,
@@ -32,6 +34,7 @@ let cocktailRepository = (function () {
         });
       })
       .catch(function (error) {
+        hideLoadingIcon();
         console.error(error);
       });
   }
@@ -51,6 +54,7 @@ let cocktailRepository = (function () {
   }
 
   function loadDetails(item) {
+    showLoadingIcon();
     // function loadDetails(drink) { -- why doesn't it work when i change item to drink
     let selectedCategory = item.category;
     selectedCategory = selectedCategory.replace(/\s+/g, '_');
@@ -62,17 +66,20 @@ let cocktailRepository = (function () {
         return response.json();
       })
       .then(function (json) {
+        hideLoadingIcon();
         json.drinks.forEach(function (details) {
           item.name = details.strDrink;
           item.imageUrl = details.strDrinkThumb + '/preview';
         });
       })
       .catch(function (error) {
+        hideLoadingIcon();
         console.error(error);
       });
   }
   //! Need help assigning names to multiple drinks?
   function loadMoreDetails(item) {
+    showLoadingIcon();
     let selectedDrink = item.name;
     selectedDrink = selectedDrink.replace(/\s+/g, '_');
     let drinkUrl =
@@ -83,6 +90,7 @@ let cocktailRepository = (function () {
         return response.json();
       })
       .then(function (details) {
+        hideLoadingIcon();
         item.glass = details.strGlass;
         console.log('--' + details.strGlass); //Why undefined?
         item.instructions = details.strInstructions;
@@ -91,6 +99,7 @@ let cocktailRepository = (function () {
         // item.measure = details.strMeasure1; add for-loop to iterate thru object?
       })
       .catch(function (e) {
+        hideLoadingIcon();
         console.error(e);
       });
   }
@@ -102,6 +111,18 @@ let cocktailRepository = (function () {
     });
     console.log(drink);
   }
+  var spinner = document.querySelector('.loader');
+  function showLoadingIcon() {
+    console.log('LOADING');
+
+    spinner.classList.add('spin');
+    setTimeout(function () {}, 1500);
+  }
+
+  function hideLoadingIcon() {
+    spinner.classList.remove('spin');
+    console.log('DONE');
+  }
 
   return {
     add: add,
@@ -111,8 +132,28 @@ let cocktailRepository = (function () {
     loadDetails: loadDetails,
     loadMoreDetails: loadMoreDetails,
     showDetails: showDetails,
+    showLoadingIcon: showLoadingIcon,
+    hideLoadingIcon: hideLoadingIcon,
   };
 })();
+
+// function refresh() {
+//   var spinner = document.querySelector('.loader');
+//   spinner.classList.add('spin');
+//   performFakeCall();
+
+//   function performFakeCall() {
+//     return new Promise(function (resolve, reject) {
+//       setTimeout(function () {
+//         resolve();
+//       }, 1500);
+//     });
+//   }
+
+//   performFakeCall().then(function (result) {
+//     spinner.classList.remove('spin');
+//   });
+// }
 
 cocktailRepository.loadList().then(function () {
   // Now the data is loaded!
@@ -120,28 +161,3 @@ cocktailRepository.loadList().then(function () {
     cocktailRepository.addListItem(drink);
   });
 });
-
-// function addCocktails() {
-//   for (let i = 0; i < cocktails.length; i++) {
-//     cocktailRepository.add(cocktails[i]);
-//   }
-// }
-
-// function printIngredients(ingredients) {
-//   let ingredientsList = '';
-//   for (let i = 0; ingredients[i]; i++) {
-//     if (i < ingredients.length - 1) {
-//       ingredientsList = ingredientsList + ingredients[i].trim() + ', ';
-//     } else {
-//       ingredientsList =
-//         ingredientsList + 'and ' + ingredients[i].trim() + '.<br /><br />';
-//     }
-//   }
-//   document.write('<h3>Ingredients:</h3> ' + ingredientsList);
-// }
-
-// addCocktails();
-
-// cocktailRepository.getAll().forEach(function (drink) {
-//   cocktailRepository.addListItem(drink);
-// });
