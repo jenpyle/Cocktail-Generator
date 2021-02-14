@@ -60,25 +60,34 @@ let cocktailRepository = (function () {
   function addDrinkListItem(drink) {
     let drinkItem = document.createElement('li');
     let drinkButton = document.createElement('button');
-    let element2 = document.querySelector('.cocktail-drinks__buttons');
-    drinkItem.innerText = drink.strDrink;
+    let drinksButtons = document.querySelector('.cocktail-drinks__buttons');
+
+    drinkButton.innerText = drink.strDrink;
+    drinkItem.appendChild(drinkButton);
+    drinksButtons.appendChild(drinkItem);
 
     drinkButton.addEventListener('click', function () {
-      drinkName = drink.strDrink;
-      fetchDetailsByDrinkName(drinkName);
-      console.log(drinkName);
+      let drinkName = drink.strDrink;
+      fetchDetailsByDrinkName(drinkName)
+        .then(response => {
+          let selectedDrink = response[0];
 
-      // .then((drinks) => {
-      //   document.querySelector('.cocktail-drinks__buttons').innerHTML = ''; // clear all the drinks, otherwise it would keep appending the drinks of the clicked category at the end
-      //   drinks.forEach((drink) => {
-      //     // you can inspect api response under Network tab > XHR > Response
-      //     addDrinkListItem(drink);
-      //   });
-      // });
+          let drinkDetailsElem = document.querySelector('.cocktail-details');
+          let drinkTitleElem = document.createElement('h3');
+
+          drinkDetailsElem.innerHTML = '';
+          drinkTitleElem.innerText = selectedDrink.strDrink;
+          drinkDetailsElem.appendChild(drinkTitleElem);
+
+          let drinkInstructionsElem = document.createElement('p');
+          drinkInstructionsElem.innerText = selectedDrink.strInstructions;
+          drinkDetailsElem.appendChild(drinkInstructionsElem);
+
+          let drinkImageElem = document.createElement('img');
+          drinkImageElem.src = selectedDrink.strDrinkThumb;
+          drinkDetailsElem.appendChild(drinkImageElem);
+        });
     });
-
-    drinkItem.appendChild(drinkButton); //append button to list item
-    element2.appendChild(drinkItem);
   }
 
   function fetchDetailsByDrinkName(name) {
