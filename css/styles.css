@@ -29,17 +29,9 @@ h3 {
   display: inline-block;
 }
 
-.container {
-  margin: 20px;
-}
-
 .drink-button,
 button {
-  /*always add transitions to default states*/
-  /* overwrites browser defaults */
   border: none;
-  /* display: block; */
-  /* takes the font from the outer container */
   font-family: inherit;
   background-color: var(--primary-color);
   color: var(--secondary-background-color);
@@ -76,14 +68,6 @@ button:focus,
   list-style: none;
 }
 
-.loader {
-  width: 80px;
-  height: 80px;
-  border: 16px solid white;
-  border-top: 16px solid #bada55;
-  border-radius: 50%;
-}
-
 .cocktail-drinks,
 .cocktail-details {
   float: left;
@@ -91,17 +75,4 @@ button:focus,
 
 .cocktail-details {
   width: 70%;
-}
-
-.spin {
-  animation: spinner 0.3s linear infinite;
-}
-
-@keyframes spinner {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
