@@ -107,18 +107,47 @@ let cocktailRepository = (function () {
     modalContainer.classList.remove('is-visible');
   }
 
+  function getIngredients(selectedDrink) {
+    let recipeArray = [];
+
+    for (let i = 1; i <= 15; i++) {
+      let ingredientString = 'strIngredient' + i;
+      let measurementString = 'strMeasure' + i;
+      let ingredientValue = selectedDrink[ingredientString];
+      let measurementValue = selectedDrink[measurementString];
+
+      if (ingredientValue === null && measurementValue === null) {
+        continue;
+      }
+      let recipe = {
+        ingredient: ingredientValue,
+        measurement: measurementValue,
+      };
+      recipeArray.push(recipe);
+    }
+    return recipeArray;
+  }
+
+  function makeIngredientsListElement(selectedDrink) {
+    let recipe = getIngredients(selectedDrink);
+    let IngredientsListElement = document.createElement('ul');
+    IngredientsListElement.classList.add('modal__ingredients');
+
+    recipe.forEach(function (element) {
+      let IngredientsElement = document.createElement('li');
+      IngredientsElement.innerText =
+        element.ingredient + ': ' + element.measurement;
+
+      IngredientsListElement.appendChild(IngredientsElement);
+    });
+    return IngredientsListElement;
+  }
+
   function showModal(response) {
-    console.log(response[0]);
     let selectedDrink = response[0];
     let title = selectedDrink.strDrink;
     let instructions = selectedDrink.strInstructions;
     let image = selectedDrink.strDrinkThumb;
-    let ingredients = '';
-
-    // for(let i = 1; i < 3; i++){
-
-    //   ingredients = selectedDrink.strMeasure + i
-    // }
 
     let modalContainer = document.querySelector('#modal-container');
     modalContainer.innerHTML = ''; //to clear it
@@ -135,7 +164,10 @@ let cocktailRepository = (function () {
     titleElement.innerText = title;
 
     let contentElement = document.createElement('p');
+    contentElement.classList.add('modal__instructions');
     contentElement.innerText = instructions;
+
+    let ingredientsElement = makeIngredientsListElement(selectedDrink);
 
     let drinkImageElem = document.createElement('img');
     drinkImageElem.src = image;
@@ -144,6 +176,7 @@ let cocktailRepository = (function () {
     modal.appendChild(closeButtonElement);
     modal.appendChild(titleElement);
     modal.appendChild(contentElement);
+    modal.appendChild(ingredientsElement);
     modal.appendChild(drinkImageElem);
     modalContainer.appendChild(modal);
 

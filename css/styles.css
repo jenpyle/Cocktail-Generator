@@ -127,7 +127,6 @@ button:focus,
 }
 
 .modal__image {
-  display: flex;
   width: 400px;
 }
 #modal-container {
