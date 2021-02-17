@@ -30,6 +30,7 @@ let cocktailRepository = (function () {
 
   function addDrinkDetails(response) {
     let selectedDrink = response[0];
+    showModal(response);
 
     let drinkDetailsElem = document.querySelector('.cocktail-details');
     let drinkTitleElem = document.createElement('h3');
@@ -68,7 +69,7 @@ let cocktailRepository = (function () {
     drinkButton.addEventListener('click', function () {
       let drinkName = drink.strDrink;
       fetchDetailsByDrinkName(drinkName).then((response) => {
-        addDrinkDetails(response);
+        showModal(response);
       });
     });
   }
@@ -101,10 +102,60 @@ let cocktailRepository = (function () {
     element.appendChild(categoryListItem); //append list item to parent
   }
 
+  function hideModal() {
+    let modalContainer = document.querySelector('#modal-container');
+    modalContainer.classList.remove('is-visible');
+  }
+
+  function showModal(response) {
+    console.log(response[0]);
+    let selectedDrink = response[0];
+    let title = selectedDrink.strDrink;
+    let instructions = selectedDrink.strInstructions;
+    let image = selectedDrink.strDrinkThumb;
+    let ingredients = '';
+
+    // for(let i = 1; i < 3; i++){
+
+    //   ingredients = selectedDrink.strMeasure + i
+    // }
+
+    let modalContainer = document.querySelector('#modal-container');
+    modalContainer.innerHTML = ''; //to clear it
+
+    let modal = document.createElement('div');
+    modal.classList.add('modal');
+
+    let closeButtonElement = document.createElement('button');
+    closeButtonElement.classList.add('modal-close');
+    closeButtonElement.innerText = 'Close';
+    closeButtonElement.addEventListener('click', hideModal);
+
+    let titleElement = document.createElement('h1');
+    titleElement.innerText = title;
+
+    let contentElement = document.createElement('p');
+    contentElement.innerText = instructions;
+
+    let drinkImageElem = document.createElement('img');
+    drinkImageElem.src = image;
+    drinkImageElem.classList.add('modal__image');
+
+    modal.appendChild(closeButtonElement);
+    modal.appendChild(titleElement);
+    modal.appendChild(contentElement);
+    modal.appendChild(drinkImageElem);
+    modalContainer.appendChild(modal);
+
+    modalContainer.classList.add('is-visible');
+  }
+
   return {
     getAll: getAll,
     loadCategoryList: loadCategoryList,
     addCategoryListItem: addCategoryListItem,
+    showModal: showModal,
+    hideModal: hideModal,
   };
 })();
 
@@ -114,4 +165,21 @@ cocktailRepository.loadCategoryList().then(function () {
   cocktailRepository.getAll().forEach(function (category) {
     cocktailRepository.addCategoryListItem(category);
   });
+});
+
+window.addEventListener('keydown', (e) => {
+  let modalContainer = document.querySelector('#modal-container');
+  if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
+    cocktailRepository.hideModal();
+  }
+});
+
+let modalContainer = document.querySelector('#modal-container');
+modalContainer.addEventListener('click', (e) => {
+  // Since this is also triggered when clicking INSIDE the modal
+  // We only want to close if the user clicks directly on the overlay
+  let target = e.target;
+  if (target === modalContainer) {
+    cocktailRepository.hideModal();
+  }
 });
