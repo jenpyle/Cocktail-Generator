@@ -28,28 +28,7 @@ let cocktailRepository = (function () {
     return cocktailCategories;
   }
 
-  function addDrinkDetails(response) {
-    let selectedDrink = response[0];
-    showModal(response);
-
-    let drinkDetailsElem = document.querySelector('.cocktail-details');
-    let drinkTitleElem = document.createElement('h3');
-
-    drinkDetailsElem.innerHTML = '';
-    drinkTitleElem.innerText = selectedDrink.strDrink;
-    drinkDetailsElem.appendChild(drinkTitleElem);
-
-    let drinkInstructionsElem = document.createElement('p');
-    drinkInstructionsElem.innerText = selectedDrink.strInstructions;
-    drinkDetailsElem.appendChild(drinkInstructionsElem);
-
-    let drinkImageElem = document.createElement('img');
-    drinkImageElem.src = selectedDrink.strDrinkThumb;
-    drinkDetailsElem.appendChild(drinkImageElem);
-  }
-
   function fetchDetailsByDrinkName(name) {
-    console.log('ooo' + name);
     return fetch(
       `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`
     )
