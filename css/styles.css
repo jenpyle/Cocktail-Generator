@@ -76,7 +76,7 @@ button:focus,
 .cocktail-details {
   width: 70%;
 }
-
+/* 
 #modal-container {
   position: fixed;
   padding: 20px;
@@ -88,16 +88,16 @@ button:focus,
   background: rgba(0, 0, 0, 0.5);
 
   /* to show it above other content */
-  z-index: 999;
+/* z-index: 999; */
 
-  /* to allow scrolling if the screen is not high enough*/
-  overflow: auto;
+/* to allow scrolling if the screen is not high enough*/
+/* overflow: auto; */
 
-  /* this is used to center the modal */
-  display: grid;
-  text-align: center;
-}
-
+/* this is used to center the modal */
+/* display: grid;
+  text-align: center; */
+/* } */
+/*
 .modal {
   margin: auto;
   display: inline-block;
@@ -131,9 +131,8 @@ button:focus,
 }
 #modal-container {
   display: none;
-}
-
-#modal-container.is-visible {
-  /* CSS for modal container - add your own desired CSS styles here */
+} */
+/* CSS for modal container - add your own desired CSS styles here */
+/* #modal-container.is-visible {
   display: block;
-}
+} */

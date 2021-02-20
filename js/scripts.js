@@ -124,42 +124,56 @@ let cocktailRepository = (function () {
 
   function showModal(response) {
     let selectedDrink = response[0];
-    let title = selectedDrink.strDrink;
-    let instructions = selectedDrink.strInstructions;
-    let image = selectedDrink.strDrinkThumb;
 
-    let modalContainer = document.querySelector('#modal-container');
-    modalContainer.innerHTML = ''; //to clear it
+    let modalBody = $('.modal-body');
+    let modalTitle = $('.modal-title');
+    let modalHeader = $('.modal-header');
+    modalTitle.empty();
+    modalBody.empty();
 
-    let modal = document.createElement('div');
-    modal.classList.add('modal');
+    let title = $('<h1>' + selectedDrink.strDrink + '</h1>');
+    let instructions = $('<p>' + selectedDrink.strInstructions + '</p>');
+    let image = $('<img class="modal-img" style="width:50%">');
+    image.attr('src', selectedDrink.strDrinkThumb);
 
-    let closeButtonElement = document.createElement('button');
-    closeButtonElement.classList.add('modal-close');
-    closeButtonElement.innerText = 'Close';
-    closeButtonElement.addEventListener('click', hideModal);
+    let ingredients = makeIngredientsListElement(selectedDrink);
+    ingredientsElement = $('<p>' + ingredients + '</p>');
 
-    let titleElement = document.createElement('h1');
-    titleElement.innerText = title;
+    modalTitle.append(title);
+    modalBody.append(instructions);
+    modalBody.append(ingredients);
+    modalBody.append(image);
 
-    let contentElement = document.createElement('p');
-    contentElement.classList.add('modal__instructions');
-    contentElement.innerText = instructions;
+    // let modalContainer = document.querySelector('#modal-container');
+    // modalContainer.innerHTML = ''; //to clear it
 
-    let ingredientsElement = makeIngredientsListElement(selectedDrink);
+    // let modal = document.createElement('div');
+    // modal.classList.add('modal');
 
-    let drinkImageElem = document.createElement('img');
-    drinkImageElem.src = image;
-    drinkImageElem.classList.add('modal__image');
+    // let closeButtonElement = document.createElement('button');
+    // closeButtonElement.classList.add('modal-close');
+    // closeButtonElement.innerText = 'Close';
+    // closeButtonElement.addEventListener('click', hideModal);
 
-    modal.appendChild(closeButtonElement);
-    modal.appendChild(titleElement);
-    modal.appendChild(contentElement);
-    modal.appendChild(ingredientsElement);
-    modal.appendChild(drinkImageElem);
-    modalContainer.appendChild(modal);
+    // let titleElement = document.createElement('h1');
+    // titleElement.innerText = title;
 
-    modalContainer.classList.add('is-visible');
+    // let contentElement = document.createElement('p');
+    // contentElement.classList.add('modal__instructions');
+    // contentElement.innerText = instructions;
+
+    // let drinkImageElem = document.createElement('img');
+    // drinkImageElem.src = image;
+    // drinkImageElem.classList.add('modal__image');
+
+    // modal.appendChild(closeButtonElement);
+    // modal.appendChild(titleElement);
+    // modal.appendChild(contentElement);
+    // modal.appendChild(ingredientsElement);
+    // modal.appendChild(drinkImageElem);
+    // modalContainer.appendChild(modal);
+
+    // modalContainer.classList.add('is-visible');
   }
 
   return {
