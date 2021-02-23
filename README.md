@@ -1,4 +1,4 @@
-# simple-js-app
+# Cocktail Generator
 
 1. Project description: Cocktail generator
 2. _How to get the project running_
