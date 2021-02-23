@@ -42,8 +42,8 @@ h3 {
   list-style: none;
 } */
 
-.drink-button,
-button {
+button,
+.btn {
   border: none;
   font-family: inherit;
   background-color: var(--primary-color);
@@ -56,9 +56,7 @@ button {
 }
 
 button:hover,
-button:focus,
-.drink-button:hover,
-.drink-button:focus {
+button:focus {
   cursor: pointer;
   opacity: 0.8;
 }
@@ -77,19 +75,23 @@ button:focus,
   font-size: larger;
 }
 
-.cocktail-drinks__buttons {
+.cocktail-drinks {
   list-style: none;
-}
-
-.cocktail-drinks,
-.cocktail-details {
-  float: left;
-}
-
-.cocktail-details {
-  width: 70%;
+  width: 250px;
 }
 
 .modal-img {
   max-width: 100%;
 }
+
+.btn {
+  width: 150px;
+}
+/* 
+.list-group {
+  display: block;
+  padding: 20px;
+}
+.group-list-item {
+  display: block;
+} */

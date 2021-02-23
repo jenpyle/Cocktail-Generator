@@ -15,6 +15,9 @@ let cocktailRepository = (function () {
       .then(function (json) {
         json.drinks.forEach(function (item) {
           // this anonymous function is the callback of forEach function, item is the parameter, item is the element of the json.drinks array which is an object
+          if (item.strCategory === '') {
+            return;
+          }
           add(item.strCategory);
         });
       })
@@ -37,8 +40,10 @@ let cocktailRepository = (function () {
 
   function addDrinkListItem(drink) {
     let drinkItem = document.createElement('li');
+    drinkItem.classList.add('group-list-item');
     let drinkButton = document.createElement('button');
-    let drinksButtons = document.querySelector('.cocktail-drinks__buttons');
+    drinkButton.classList.add('btn');
+    let drinksButtons = document.querySelector('.cocktail-drinks');
 
     drinkButton.setAttribute('data-toggle', 'modal');
     drinkButton.setAttribute('data-target', '#modal-container');
@@ -66,12 +71,14 @@ let cocktailRepository = (function () {
   function addCategoryListItem(category) {
     let element = document.querySelector('.cocktail-categories');
     let categoryListItem = document.createElement('li');
+    categoryListItem.classList.add('group-list-item');
     let categoryButton = document.createElement('button');
+    categoryButton.classList.add('btn');
     categoryButton.innerText = category;
 
     categoryButton.addEventListener('click', function () {
       fetchDrinksByCategory(category).then((drinks) => {
-        document.querySelector('.cocktail-drinks__buttons').innerHTML = ''; // clear all the drinks, otherwise it would keep appending the drinks of the clicked category at the end
+        document.querySelector('.cocktail-drinks').innerHTML = ''; // clear all the drinks, otherwise it would keep appending the drinks of the clicked category at the end
         drinks.forEach((drink) => {
           // you can inspect api response under Network tab > XHR > Response
           addDrinkListItem(drink);
@@ -106,10 +113,12 @@ let cocktailRepository = (function () {
   function makeIngredientsListElement(selectedDrink) {
     let recipe = getIngredients(selectedDrink);
     let IngredientsListElement = document.createElement('ul');
+    IngredientsListElement.classList.add('list-group');
     IngredientsListElement.classList.add('modal__ingredients');
 
     recipe.forEach(function (element) {
       let IngredientsElement = document.createElement('li');
+      IngredientsElement.classList.add('group-list-item');
       IngredientsElement.innerText =
         element.ingredient + ': ' + element.measurement;
 
