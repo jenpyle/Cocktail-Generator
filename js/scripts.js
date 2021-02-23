@@ -13,7 +13,6 @@ let cocktailRepository = (function () {
         return response.json();
       })
       .then(function (json) {
-        console.log(json, '!!drinks'); // check the Api response (json) to get the name 'drinks'
         json.drinks.forEach(function (item) {
           // this anonymous function is the callback of forEach function, item is the parameter, item is the element of the json.drinks array which is an object
           add(item.strCategory);
@@ -41,6 +40,9 @@ let cocktailRepository = (function () {
     let drinkButton = document.createElement('button');
     let drinksButtons = document.querySelector('.cocktail-drinks__buttons');
 
+    drinkButton.setAttribute('data-toggle', 'modal');
+    drinkButton.setAttribute('data-target', '#modal-container');
+
     drinkButton.innerText = drink.strDrink;
     drinkItem.appendChild(drinkButton);
     drinksButtons.appendChild(drinkItem);
@@ -54,11 +56,10 @@ let cocktailRepository = (function () {
   }
 
   function fetchDrinksByCategory(category) {
-    console.log('HERE');
     return fetch(
       `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`
     )
-      .then((response) => response.json()) //what do these do?
+      .then((response) => response.json())
       .then((json) => json.drinks);
   }
 
@@ -79,11 +80,6 @@ let cocktailRepository = (function () {
     });
     categoryListItem.appendChild(categoryButton); //append button to list item
     element.appendChild(categoryListItem); //append list item to parent
-  }
-
-  function hideModal() {
-    let modalContainer = document.querySelector('#modal-container');
-    modalContainer.classList.remove('is-visible');
   }
 
   function getIngredients(selectedDrink) {
@@ -127,61 +123,29 @@ let cocktailRepository = (function () {
 
     let modalBody = $('.modal-body');
     let modalTitle = $('.modal-title');
-    let modalHeader = $('.modal-header');
     modalTitle.empty();
     modalBody.empty();
 
     let title = $('<h1>' + selectedDrink.strDrink + '</h1>');
+    let instructionsTitle = '<h3>Instructions:</h3>';
     let instructions = $('<p>' + selectedDrink.strInstructions + '</p>');
-    let image = $('<img class="modal-img" style="width:50%">');
+    let image = $('<img class="modal-img">');
     image.attr('src', selectedDrink.strDrinkThumb);
-
+    let ingredientsTitle = $('<h3>Ingredients:</h3>');
     let ingredients = makeIngredientsListElement(selectedDrink);
-    ingredientsElement = $('<p>' + ingredients + '</p>');
 
     modalTitle.append(title);
+    modalBody.append(instructionsTitle);
     modalBody.append(instructions);
+    modalBody.append(ingredientsTitle);
     modalBody.append(ingredients);
     modalBody.append(image);
-
-    // let modalContainer = document.querySelector('#modal-container');
-    // modalContainer.innerHTML = ''; //to clear it
-
-    // let modal = document.createElement('div');
-    // modal.classList.add('modal');
-
-    // let closeButtonElement = document.createElement('button');
-    // closeButtonElement.classList.add('modal-close');
-    // closeButtonElement.innerText = 'Close';
-    // closeButtonElement.addEventListener('click', hideModal);
-
-    // let titleElement = document.createElement('h1');
-    // titleElement.innerText = title;
-
-    // let contentElement = document.createElement('p');
-    // contentElement.classList.add('modal__instructions');
-    // contentElement.innerText = instructions;
-
-    // let drinkImageElem = document.createElement('img');
-    // drinkImageElem.src = image;
-    // drinkImageElem.classList.add('modal__image');
-
-    // modal.appendChild(closeButtonElement);
-    // modal.appendChild(titleElement);
-    // modal.appendChild(contentElement);
-    // modal.appendChild(ingredientsElement);
-    // modal.appendChild(drinkImageElem);
-    // modalContainer.appendChild(modal);
-
-    // modalContainer.classList.add('is-visible');
   }
 
   return {
     getAll: getAll,
     loadCategoryList: loadCategoryList,
     addCategoryListItem: addCategoryListItem,
-    showModal: showModal,
-    hideModal: hideModal,
   };
 })();
 
@@ -191,21 +155,4 @@ cocktailRepository.loadCategoryList().then(function () {
   cocktailRepository.getAll().forEach(function (category) {
     cocktailRepository.addCategoryListItem(category);
   });
-});
-
-window.addEventListener('keydown', (e) => {
-  let modalContainer = document.querySelector('#modal-container');
-  if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
-    cocktailRepository.hideModal();
-  }
-});
-
-let modalContainer = document.querySelector('#modal-container');
-modalContainer.addEventListener('click', (e) => {
-  // Since this is also triggered when clicking INSIDE the modal
-  // We only want to close if the user clicks directly on the overlay
-  let target = e.target;
-  if (target === modalContainer) {
-    cocktailRepository.hideModal();
-  }
 });
