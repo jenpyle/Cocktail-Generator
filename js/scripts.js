@@ -1,46 +1,14 @@
 //Ask about order of functions
 //what is the naming convention? is it - or camelcase?
-
+//Mobile view is not centered
+/* .prettier-ignore */
 let cocktailRepository = (function () {
-  let filteredOptionsList = [];
+  let filteredOptionsList = {}; //rename filteredOptions
 
-  function add(listItem) {
-    if (listItem === '') {
-      return;
-    }
-    filteredOptionsList.push(listItem);
-  }
-  //is there a way to make this function short like the other fetching functions?
-  function fetchFilteredList(filterLetter, strOption) {
-    return fetch(
-      `https://www.thecocktaildb.com/api/json/v1/1/list.php?${filterLetter}=list`
-    )
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (json) {
-        json.drinks.forEach(function (item) {
-          //Why doesn't item.strOption work?
-          // add(item.strOption);
-          // add(item.strIngredient1);
-          // add(item.strGlass);
-          add(item.strAlcoholic);
-        });
-      })
-      .catch(function (error) {
-        console.error(error);
-      })
-      .then(function () {
-        //What is going on here? Are these parameters correct?
-        getAll().forEach(function (itemValue) {
-          addFilteredListItem(filterLetter, itemValue);
-        });
-      });
-  }
-
-  function getAll() {
-    return filteredOptionsList;
-  }
+  // function getAll() {
+  //   console.log(filteredOptionsList);
+  //   return filteredOptionsList;
+  // }
 
   function fetchDetailsByDrinkName(name) {
     return fetch(
@@ -164,20 +132,69 @@ let cocktailRepository = (function () {
     modalBody.append(image);
   }
 
-  function toggleHideShow(y) {
-    console.log('----- ' + y);
-    var x = document.querySelector(y);
-    console.log(x);
-    if (x.style.display === 'none' || x === null) {
-      x.style.display = 'block';
-    } else {
-      x.style.display = 'none';
+  function add(strOption, listItem) {
+    //making key value obj from filter and listItem
+    if (!(strOption in filteredOptionsList)) {
+      //so it doesn't redo the key
+      filteredOptionsList[strOption] = []; //making key(strCategory..etc) with an empty array
     }
+    if (
+      filteredOptionsList[strOption].indexOf(listItem) === -1 &&
+      listItem !== ''
+    ) {
+      //check if an item is already in the array
+
+      filteredOptionsList[strOption].push(listItem);
+    }
+  }
+
+  function getAll(strOption) {
+    return filteredOptionsList[strOption];
+  }
+
+  function renderFilteredList(filterLetter, strOption) {
+    document.querySelector('.filtered-options').innerHTML = ''; //clear buttons
+    document.querySelector('.drinks').innerHTML = ''; //clear buttons
+    getAll(strOption).forEach(function (itemValue) {
+      addFilteredListItem(filterLetter, itemValue);
+    });
+  }
+
+  // function add(listItem) {
+  //   if (listItem === '') {
+  //     return;
+  //   }
+  //   filteredOptionsList.push(listItem);
+  // }
+
+  function fetchFilteredList(filterLetter, strOption) {
+    if (filteredOptionsList[strOption]) {
+      //checks if this key is in the object already
+      renderFilteredList(filterLetter, strOption);
+      return;
+    }
+    return fetch(
+      `https://www.thecocktaildb.com/api/json/v1/1/list.php?${filterLetter}=list`
+    )
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (json) {
+        json.drinks.forEach(function (item) {
+          console.log(item);
+          add(strOption, item[strOption]);
+        });
+      })
+      .catch(function (error) {
+        console.error(error);
+      })
+      .then(function () {
+        renderFilteredList(filterLetter, strOption);
+      });
   }
 
   return {
     fetchFilteredList: fetchFilteredList,
-    toggleHideShow: toggleHideShow,
   };
 })();
 
@@ -187,4 +204,9 @@ let cocktailRepository = (function () {
 //   cocktailRepository.getAll().forEach(function (category) {
 //     cocktailRepository.addCategoryListItem(category);
 //   });
+// });
+
+// document.querySelector('.reset').addEventListener('click', function () {
+//   document.querySelector('.filtered-options').innerHTML = '';
+//   document.querySelector('.drinks').innerHTML = '';
 // });
