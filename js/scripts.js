@@ -26,21 +26,18 @@ let cocktailRepository = (function () {
   //     });
   // }
 
-  function loadFilteredList(filter, key) {
+  function loadFilteredList(filterLetter, strOption) {
     return fetch(
-      `https://www.thecocktaildb.com/api/json/v1/1/list.php?${filter}=list`
+      `https://www.thecocktaildb.com/api/json/v1/1/list.php?${filterLetter}=list`
     )
       .then(function (response) {
         return response.json();
       })
       .then(function (json) {
         json.drinks.forEach(function (item) {
-          console.log('0--' + item);
-          console.log('0--' + key);
-          //Why doesn't item.key work?
-          // add(item.key);
+          //Why doesn't item.strOption work?
+          // add(item.strOption);
           add(item.strIngredient1);
-          // add(item.strCategory);
         });
       })
       .catch(function (error) {
@@ -48,8 +45,8 @@ let cocktailRepository = (function () {
       })
       .then(function () {
         //What is going on here? Are these parameters correct?
-        getAll().forEach(function (item) {
-          addCategoryListItem(item, filter, key);
+        getAll().forEach(function (itemValue) {
+          addCategoryListItem(filterLetter, itemValue);
         });
       });
   }
@@ -88,45 +85,33 @@ let cocktailRepository = (function () {
     });
   }
 
-  // function fetchDrinksByCategory(category) {
-  //   return fetch(
-  //     `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`
-  //   )
-  //     .then((response) => response.json())
-  //     .then((json) => json.drinks);
-  // }
-
-  function fetchDrinksByFilter(filter, key) {
-    console.log('2--filter = ' + filter);
-    console.log('2--key = ' + key);
-    return (
-      fetch(
-        `https://www.thecocktaildb.com/api/json/v1/1/filter.php?${filter}=${key}`
-      )
-        //---------------What is going on here? why does line 112 break the code?
-        // .then((response) => response.json())
-        .then((json) => json.drinks)
-        .catch(function (error) {
-          console.error(error);
-        })
-    );
+  function fetchDrinksByFilter(filterLetter, itemValue) {
+    console.log('2--filter = ' + filterLetter);
+    console.log('2--itemValue = ' + itemValue);
+    return fetch(
+      `https://www.thecocktaildb.com/api/json/v1/1/filter.php?${filterLetter}=${itemValue}`
+    )
+      .then((response) => response.json())
+      .then((json) => json.drinks);
+    // .catch(function (error) {
+    //   console.error(error);
+    // })
   }
 
-  function addCategoryListItem(filter, key) {
-    console.log('1--filter = ' + filter);
-    console.log('1--key = ' + key);
+  function addCategoryListItem(filterLetter, itemValue) {
     let element = document.querySelector('.cocktail-categories');
     let categoryListItem = document.createElement('li');
     categoryListItem.classList.add('group-list-item');
     let categoryButton = document.createElement('button');
     categoryButton.classList.add('btn');
-    categoryButton.innerText = filter;
+    categoryButton.innerText = itemValue;
 
     categoryButton.addEventListener('click', function () {
-      // fetchDrinksByCategory(filterType, key).then((drinks) => {
-      fetchDrinksByFilter(filter, key).then((drinks) => {
+      fetchDrinksByFilter(filterLetter, itemValue).then((drinks) => {
+        console.log('0HERE----------' + drinks);
         document.querySelector('.cocktail-drinks').innerHTML = ''; // clear all the drinks, otherwise it would keep appending the drinks of the clicked category at the end
         drinks.forEach((drink) => {
+          console.log('HERE-------' + drink);
           // you can inspect api response under Network tab > XHR > Response
           addDrinkListItem(drink);
         });
