@@ -1,33 +1,45 @@
+//Ask about order of functions
+//what is the naming convention? is it - or camelcase?
+
 let cocktailRepository = (function () {
-  let cocktailCategories = [];
-  let apiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+  let filteredOptionsList = [];
 
-  function add(category) {
-    cocktailCategories.push(category);
+  function add(listItem) {
+    if (listItem === '') {
+      return;
+    }
+    filteredOptionsList.push(listItem);
   }
-
-  function loadCategoryList() {
-    return fetch(apiUrl) // fetch returns a Promise
+  //is there a way to make this function short like the other fetching functions?
+  function fetchFilteredList(filterLetter, strOption) {
+    return fetch(
+      `https://www.thecocktaildb.com/api/json/v1/1/list.php?${filterLetter}=list`
+    )
       .then(function (response) {
-        //same thing as last 2 lines of fetchDrinksByCategory function
         return response.json();
       })
       .then(function (json) {
         json.drinks.forEach(function (item) {
-          // this anonymous function is the callback of forEach function, item is the parameter, item is the element of the json.drinks array which is an object
-          if (item.strCategory === '') {
-            return;
-          }
-          add(item.strCategory);
+          //Why doesn't item.strOption work?
+          // add(item.strOption);
+          // add(item.strIngredient1);
+          // add(item.strGlass);
+          add(item.strAlcoholic);
         });
       })
       .catch(function (error) {
         console.error(error);
+      })
+      .then(function () {
+        //What is going on here? Are these parameters correct?
+        getAll().forEach(function (itemValue) {
+          addFilteredListItem(filterLetter, itemValue);
+        });
       });
   }
 
   function getAll() {
-    return cocktailCategories;
+    return filteredOptionsList;
   }
 
   function fetchDetailsByDrinkName(name) {
@@ -43,7 +55,7 @@ let cocktailRepository = (function () {
     drinkItem.classList.add('group-list-item');
     let drinkButton = document.createElement('button');
     drinkButton.classList.add('btn');
-    let drinksButtons = document.querySelector('.cocktail-drinks');
+    let drinksButtons = document.querySelector('.drinks');
 
     drinkButton.setAttribute('data-toggle', 'modal');
     drinkButton.setAttribute('data-target', '#modal-container');
@@ -60,33 +72,34 @@ let cocktailRepository = (function () {
     });
   }
 
-  function fetchDrinksByCategory(category) {
+  function fetchDrinksByFilter(filterLetter, itemValue) {
+    console.log('2--filter = ' + filterLetter);
+    console.log('2--itemValue = ' + itemValue);
     return fetch(
-      `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`
+      `https://www.thecocktaildb.com/api/json/v1/1/filter.php?${filterLetter}=${itemValue}`
     )
       .then((response) => response.json())
       .then((json) => json.drinks);
   }
 
-  function addCategoryListItem(category) {
-    let element = document.querySelector('.cocktail-categories');
-    let categoryListItem = document.createElement('li');
-    categoryListItem.classList.add('group-list-item');
-    let categoryButton = document.createElement('button');
-    categoryButton.classList.add('btn');
-    categoryButton.innerText = category;
+  function addFilteredListItem(filterLetter, itemValue) {
+    let element = document.querySelector('.filtered-options');
+    let filteredListItem = document.createElement('li');
+    filteredListItem.classList.add('group-list-item');
+    let itemButton = document.createElement('button');
+    itemButton.classList.add('btn');
+    itemButton.innerText = itemValue;
 
-    categoryButton.addEventListener('click', function () {
-      fetchDrinksByCategory(category).then((drinks) => {
-        document.querySelector('.cocktail-drinks').innerHTML = ''; // clear all the drinks, otherwise it would keep appending the drinks of the clicked category at the end
+    itemButton.addEventListener('click', function () {
+      fetchDrinksByFilter(filterLetter, itemValue).then((drinks) => {
+        document.querySelector('.drinks').innerHTML = ''; // clear all the drinks, otherwise it would keep appending the drinks of the clicked category at the end
         drinks.forEach((drink) => {
-          // you can inspect api response under Network tab > XHR > Response
           addDrinkListItem(drink);
         });
       });
     });
-    categoryListItem.appendChild(categoryButton); //append button to list item
-    element.appendChild(categoryListItem); //append list item to parent
+    filteredListItem.appendChild(itemButton);
+    element.appendChild(filteredListItem);
   }
 
   function getIngredients(selectedDrink) {
@@ -151,17 +164,27 @@ let cocktailRepository = (function () {
     modalBody.append(image);
   }
 
+  function toggleHideShow(y) {
+    console.log('----- ' + y);
+    var x = document.querySelector(y);
+    console.log(x);
+    if (x.style.display === 'none' || x === null) {
+      x.style.display = 'block';
+    } else {
+      x.style.display = 'none';
+    }
+  }
+
   return {
-    getAll: getAll,
-    loadCategoryList: loadCategoryList,
-    addCategoryListItem: addCategoryListItem,
+    fetchFilteredList: fetchFilteredList,
+    toggleHideShow: toggleHideShow,
   };
 })();
 
-cocktailRepository.loadCategoryList().then(function () {
-  // Now the data is loaded!
-  console.log('Data loaded! now getAll()');
-  cocktailRepository.getAll().forEach(function (category) {
-    cocktailRepository.addCategoryListItem(category);
-  });
-});
+// cocktailRepository.loadCategoryList().then(function () {
+//   // Now the data is loaded!
+//   console.log('Data loaded! now getAll()');
+//   cocktailRepository.getAll().forEach(function (category) {
+//     cocktailRepository.addCategoryListItem(category);
+//   });
+// });

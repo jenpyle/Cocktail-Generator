@@ -61,21 +61,21 @@ button:focus {
   opacity: 0.8;
 }
 
-.cocktail-categories {
-  display: flex;
+.filtered-options {
+  display: inline-flex;
   flex-direction: row;
   list-style-type: none;
   align-items: center;
   flex-wrap: wrap;
 }
 
-.cocktail-categories button {
+.filtered-options button {
   width: 300px;
   height: 50px;
   font-size: larger;
 }
 
-.cocktail-drinks {
+.drinks {
   list-style: none;
   width: 250px;
 }
