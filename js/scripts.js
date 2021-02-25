@@ -2,27 +2,55 @@ let cocktailRepository = (function () {
   let cocktailCategories = [];
   let apiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
 
-  function add(category) {
-    cocktailCategories.push(category);
+  function add(listItem) {
+    cocktailCategories.push(listItem);
   }
 
-  function loadCategoryList() {
-    return fetch(apiUrl) // fetch returns a Promise
+  // function loadCategoryList() {
+  //   return fetch(apiUrl) // fetch returns a Promise
+  //     .then(function (response) {
+  //       //same thing as last 2 lines of fetchDrinksByCategory function
+  //       return response.json();
+  //     })
+  //     .then(function (json) {
+  //       json.drinks.forEach(function (item) {
+  //         // this anonymous function is the callback of forEach function, item is the parameter, item is the element of the json.drinks array which is an object
+  //         if (item.strCategory === '') {
+  //           return;
+  //         }
+  //         add(item.strCategory);
+  //       });
+  //     })
+  //     .catch(function (error) {
+  //       console.error(error);
+  //     });
+  // }
+
+  function loadFilteredList(filter, key) {
+    return fetch(
+      `https://www.thecocktaildb.com/api/json/v1/1/list.php?${filter}=list`
+    )
       .then(function (response) {
-        //same thing as last 2 lines of fetchDrinksByCategory function
         return response.json();
       })
       .then(function (json) {
         json.drinks.forEach(function (item) {
-          // this anonymous function is the callback of forEach function, item is the parameter, item is the element of the json.drinks array which is an object
-          if (item.strCategory === '') {
-            return;
-          }
-          add(item.strCategory);
+          console.log('0--' + item);
+          console.log('0--' + key);
+          //Why doesn't item.key work?
+          // add(item.key);
+          add(item.strIngredient1);
+          // add(item.strCategory);
         });
       })
       .catch(function (error) {
         console.error(error);
+      })
+      .then(function () {
+        //What is going on here? Are these parameters correct?
+        getAll().forEach(function (item) {
+          addCategoryListItem(item, filter, key);
+        });
       });
   }
 
@@ -60,24 +88,43 @@ let cocktailRepository = (function () {
     });
   }
 
-  function fetchDrinksByCategory(category) {
-    return fetch(
-      `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`
-    )
-      .then((response) => response.json())
-      .then((json) => json.drinks);
+  // function fetchDrinksByCategory(category) {
+  //   return fetch(
+  //     `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`
+  //   )
+  //     .then((response) => response.json())
+  //     .then((json) => json.drinks);
+  // }
+
+  function fetchDrinksByFilter(filter, key) {
+    console.log('2--filter = ' + filter);
+    console.log('2--key = ' + key);
+    return (
+      fetch(
+        `https://www.thecocktaildb.com/api/json/v1/1/filter.php?${filter}=${key}`
+      )
+        //---------------What is going on here? why does line 112 break the code?
+        // .then((response) => response.json())
+        .then((json) => json.drinks)
+        .catch(function (error) {
+          console.error(error);
+        })
+    );
   }
 
-  function addCategoryListItem(category) {
+  function addCategoryListItem(filter, key) {
+    console.log('1--filter = ' + filter);
+    console.log('1--key = ' + key);
     let element = document.querySelector('.cocktail-categories');
     let categoryListItem = document.createElement('li');
     categoryListItem.classList.add('group-list-item');
     let categoryButton = document.createElement('button');
     categoryButton.classList.add('btn');
-    categoryButton.innerText = category;
+    categoryButton.innerText = filter;
 
     categoryButton.addEventListener('click', function () {
-      fetchDrinksByCategory(category).then((drinks) => {
+      // fetchDrinksByCategory(filterType, key).then((drinks) => {
+      fetchDrinksByFilter(filter, key).then((drinks) => {
         document.querySelector('.cocktail-drinks').innerHTML = ''; // clear all the drinks, otherwise it would keep appending the drinks of the clicked category at the end
         drinks.forEach((drink) => {
           // you can inspect api response under Network tab > XHR > Response
@@ -151,17 +198,30 @@ let cocktailRepository = (function () {
     modalBody.append(image);
   }
 
+  function toggleHideShow(y) {
+    console.log('----- ' + y);
+    var x = document.querySelector(y);
+    console.log(x);
+    if (x.style.display === 'none' || x === null) {
+      x.style.display = 'block';
+    } else {
+      x.style.display = 'none';
+    }
+  }
+
   return {
     getAll: getAll,
-    loadCategoryList: loadCategoryList,
+    // loadCategoryList: loadCategoryList,
+    loadFilteredList: loadFilteredList,
     addCategoryListItem: addCategoryListItem,
+    toggleHideShow: toggleHideShow,
   };
 })();
 
-cocktailRepository.loadCategoryList().then(function () {
-  // Now the data is loaded!
-  console.log('Data loaded! now getAll()');
-  cocktailRepository.getAll().forEach(function (category) {
-    cocktailRepository.addCategoryListItem(category);
-  });
-});
+// cocktailRepository.loadCategoryList().then(function () {
+//   // Now the data is loaded!
+//   console.log('Data loaded! now getAll()');
+//   cocktailRepository.getAll().forEach(function (category) {
+//     cocktailRepository.addCategoryListItem(category);
+//   });
+// });

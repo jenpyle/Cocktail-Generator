@@ -12,6 +12,19 @@
 </head>
 
 <body>
+    <div class="cocktail-filter">
+        <button onclick="cocktailRepository.loadFilteredList('c', `strCategory`)" type="button"
+            class="btn btn-lg">Categories</button>
+        <button onclick="cocktailRepository.loadFilteredList('i', `strIngredient1`)" type="button"
+            class="btn btn-lg">Ingredients</button>
+        <button type="button" class="btn btn-lg">Glasses</button>
+        <button type="button" class="btn btn-lg">Alcoholic/Non-Alcoholic</button>
+        <input class="btn btn-primary" type="reset" value="Reset">
+    </div>
+
+    <ul class="cocktail-categories list-group"></ul>
+    <ul class="cocktail-drinks list-group"></ul>
+
     <!-- Modal -->
     <div class="modal fade" id="modal-container" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
         aria-hidden="true">
@@ -31,8 +44,7 @@
             </div>
         </div>
     </div>
-    <ul class="cocktail-categories list-group"></ul>
-    <ul class="cocktail-drinks list-group"></ul>
+
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -46,6 +58,10 @@
     <script src="js/promise-polyfill.js"></script>
     <script src="js/fetch-polyfill.js"></script>
     <script src="js/scripts.js"></script>
+    <script src="js/tota11y.min.js"></script>
+
+
+
 </body>
 
 </html>

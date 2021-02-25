@@ -62,7 +62,7 @@ button:focus {
 }
 
 .cocktail-categories {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   list-style-type: none;
   align-items: center;
