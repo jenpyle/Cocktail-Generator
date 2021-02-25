@@ -12,18 +12,20 @@
 </head>
 
 <body>
-    <div class="cocktail-filter">
-        <button onclick="cocktailRepository.loadFilteredList('c', 'strCategory')" type="button"
+    <div class="filter">
+        <button onclick="cocktailRepository.fetchFilteredList('c', 'strCategory')" type="button"
             class="btn btn-lg">Categories</button>
-        <button onclick="cocktailRepository.loadFilteredList('i', 'strIngredient1')" type="button"
+        <button onclick="cocktailRepository.fetchFilteredList('i', 'strIngredient1')" type="button"
             class="btn btn-lg">Ingredients</button>
-        <button type="button" class="btn btn-lg">Glasses</button>
-        <button type="button" class="btn btn-lg">Alcoholic/Non-Alcoholic</button>
+        <button onclick="cocktailRepository.fetchFilteredList('g', 'strGlass')" type="button"
+            class="btn btn-lg">Glasses</button>
+        <button onclick="cocktailRepository.fetchFilteredList('a', 'strAlcoholic')" type="button"
+            class="btn btn-lg">Alcoholic/Non-Alcoholic</button>
         <input class="btn btn-primary" type="reset" value="Reset">
     </div>
 
-    <ul class="cocktail-categories list-group"></ul>
-    <ul class="cocktail-drinks list-group"></ul>
+    <ul class="filtered-options list-group"></ul>
+    <ul class="drinks list-group"></ul>
 
     <!-- Modal -->
     <div class="modal fade" id="modal-container" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
