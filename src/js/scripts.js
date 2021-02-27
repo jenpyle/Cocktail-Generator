@@ -1,5 +1,4 @@
 //Mobile view is not centered
-/* .prettier-ignore */
 
 let cocktailRepository = (function () {
   let filteredOptionsObj = {};
@@ -34,8 +33,7 @@ let cocktailRepository = (function () {
     recipe.forEach(function (element) {
       let IngredientsElement = document.createElement('li');
       IngredientsElement.classList.add('group-list-item');
-      IngredientsElement.innerText =
-        element.ingredient + ': ' + element.measurement;
+      IngredientsElement.innerText = element.ingredient + ': ' + element.measurement;
 
       IngredientsListElement.appendChild(IngredientsElement);
     });
@@ -67,9 +65,7 @@ let cocktailRepository = (function () {
   }
 
   function fetchDetailsByDrinkName(name) {
-    return fetch(
-      `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`
-    )
+    return fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`)
       .then((response) => response.json())
       .then((json) => json.drinks);
   }
@@ -97,9 +93,7 @@ let cocktailRepository = (function () {
   }
 
   function fetchDrinksByFilter(filterLetter, itemValue) {
-    return fetch(
-      `https://www.thecocktaildb.com/api/json/v1/1/filter.php?${filterLetter}=${itemValue}`
-    )
+    return fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?${filterLetter}=${itemValue}`)
       .then((response) => response.json())
       .then((json) => json.drinks);
   }
@@ -142,10 +136,7 @@ let cocktailRepository = (function () {
       //so it doesn't redo the key
       filteredOptionsObj[strOption] = []; //making key(strCategory..etc) with an empty array
     }
-    if (
-      filteredOptionsObj[strOption].indexOf(listItem) === -1 &&
-      listItem !== ''
-    ) {
+    if (filteredOptionsObj[strOption].indexOf(listItem) === -1 && listItem !== '') {
       //check if an item is already in the array
       filteredOptionsObj[strOption].push(listItem);
     }
@@ -157,9 +148,7 @@ let cocktailRepository = (function () {
       renderFilteredList(filterLetter, strOption);
       return;
     } else {
-      return fetch(
-        `https://www.thecocktaildb.com/api/json/v1/1/list.php?${filterLetter}=list`
-      )
+      return fetch(`https://www.thecocktaildb.com/api/json/v1/1/list.php?${filterLetter}=list`)
         .then(function (response) {
           return response.json();
         })

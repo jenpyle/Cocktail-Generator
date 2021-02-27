@@ -14,6 +14,7 @@
 
 * {
   box-sizing: border-box;
+  float:center;
   padding: 10px;
   margin: 0px;
 }
@@ -82,6 +83,10 @@ button:focus {
 
 .modal-img {
   max-width: 100%;
+}
+
+.modal__ingredients {
+  padding-left: 30px;
 }
 
 .btn {
