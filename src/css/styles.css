@@ -14,13 +14,13 @@
 
 * {
   box-sizing: border-box;
-  float:center;
   padding: 10px;
   margin: 0px;
 }
 
 body {
-  font-family: 'Ubuntu', sans-serif;
+  /* font-family: 'Ubuntu', sans-serif; */
+  font-family: Raleway, Georgia, Cambria, 'Times New Roman', Times, serif;
   font-weight: 400;
   background-color: var(--primary-background-color);
   line-height: normal;
@@ -28,6 +28,11 @@ body {
 
 h3 {
   display: inline-block;
+}
+
+.container {
+  display: inline-flex;
+  justify-content: center;
 }
 
 /* .modal h3 {

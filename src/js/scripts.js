@@ -71,6 +71,7 @@ let cocktailRepository = (function () {
   }
 
   function addDrinkListItem(drink) {
+    drinks.style.display = 'block';
     let drinkItem = document.createElement('li');
     drinkItem.classList.add('group-list-item');
     let drinkButton = document.createElement('button');
@@ -99,6 +100,7 @@ let cocktailRepository = (function () {
   }
 
   function addFilteredListItem(filterLetter, itemValue) {
+    options.style.display = 'block';
     let element = document.querySelector('.filtered-options');
     let filteredListItem = document.createElement('li');
     filteredListItem.classList.add('group-list-item');
@@ -180,6 +182,8 @@ let cocktailRepository = (function () {
 // });
 
 document.querySelector('.reset').addEventListener('click', function () {
+  drinks.style.display = 'none';
+  drinks.style.display = 'none';
   document.querySelector('.filtered-options').innerHTML = '';
   document.querySelector('.drinks').innerHTML = '';
 });
