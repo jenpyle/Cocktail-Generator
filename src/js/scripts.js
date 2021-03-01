@@ -149,7 +149,8 @@ let cocktailRepository = (function () {
     }
   }
 
-  function fetchFilteredList(filterLetter, strOption) {
+  function fetchFilteredList(filterLetter, strOption, text) {
+    document.querySelector('.selected-category').innerHTML = text;
     if (filteredOptionsObj[strOption]) {
       //checks if this key is in the object already
       renderFilteredList(filterLetter, strOption);
