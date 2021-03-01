@@ -71,6 +71,7 @@ let cocktailRepository = (function () {
   }
 
   function addDrinkListItem(drink) {
+    step3.style.display = 'block';
     drinks.style.display = 'block';
     let drinkItem = document.createElement('li');
     drinkItem.classList.add('group-list-item');
@@ -100,6 +101,7 @@ let cocktailRepository = (function () {
   }
 
   function addFilteredListItem(filterLetter, itemValue) {
+    step2.style.display = 'block';
     options.style.display = 'block';
     let element = document.querySelector('.filtered-options');
     let filteredListItem = document.createElement('li');
@@ -173,17 +175,10 @@ let cocktailRepository = (function () {
   };
 })();
 
-// cocktailRepository.loadCategoryList().then(function () {
-//   // Now the data is loaded!
-//   console.log('Data loaded! now getAll()');
-//   cocktailRepository.getAll().forEach(function (category) {
-//     cocktailRepository.addCategoryListItem(category);
-//   });
-// });
-
 document.querySelector('.reset').addEventListener('click', function () {
   drinks.style.display = 'none';
-  drinks.style.display = 'none';
+  step2.style.display = 'none';
+  step3.style.display = 'none';
   document.querySelector('.filtered-options').innerHTML = '';
   document.querySelector('.drinks').innerHTML = '';
 });

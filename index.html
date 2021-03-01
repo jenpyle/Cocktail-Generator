@@ -12,20 +12,44 @@
 </head>
 
 <body>
+    <div class="page-header">
+        <h2 class="page-header__title">Cocktail Recipe Finder</h2>
+        <img title="Gimlet" src="https://www.thecocktaildb.com/images/media/drink/3xgldt1513707271.jpg"
+            alt="Image of Gimlet Cocktail">
+        <img title="Day at the Beach" src="https://www.thecocktaildb.com\/images\/media\/drink\/trptts1454514474.jpg"
+            alt="Image of Day at the Beach Cocktail">
+        <img title="Black Russian" src="https:\/\/www.thecocktaildb.com\/images\/media\/drink\/8oxlqf1606772765.jpg"
+            alt="Image of Black Russian Cocktail">
+        <img title="Smashed Watermelon Margarita"
+            src="https://www.thecocktaildb.com\/images\/media\/drink\/dztcv51598717861.jpg"
+            alt="Image of Smashed Watermelon Margarita Cocktail">
+        <img title="The Evil Blue Thing" src="https://www.thecocktaildb.com\/images\/media\/drink\/ojnpz71504793059.jpg"
+            alt="Image of The Evil Blue Thing Cocktail">
+        <img title="A True Amaretto Sour"
+            src="https://www.thecocktaildb.com\/images\/media\/drink\/rptuxy1472669372.jpg"
+            alt="Image of A True Amaretto Sour Cocktail">
+        <img title="Jamaican Coffee" src="https://www.thecocktaildb.com\/images\/media\/drink\/xqptps1441247257.jpg"
+            alt="Image of Jamaican Coffee Cocktail">
+        <h6>Tired of the same old drink every night? Browse hundreds of fun new recipes using Cocktail Recipe
+            Finder!</h6>
+    </div>
     <div class="container">
+        <h3 id="step1">Step 1: Select a category</h3>
         <div class="filter">
-            <button onclick="cocktailRepository.fetchFilteredList('c', 'strCategory')" type="button"
-                class="btn btn-lg">Categories</button>
+            <button onclick="cocktailRepository.fetchFilteredList('c', 'strCategory')" type="button" class="btn">Drink
+                Type</button>
             <button onclick="cocktailRepository.fetchFilteredList('i', 'strIngredient1')" type="button"
-                class="btn btn-lg">Ingredients</button>
+                class="btn">Ingredients</button>
             <button onclick="cocktailRepository.fetchFilteredList('g', 'strGlass')" type="button"
-                class="btn btn-lg">Glasses</button>
+                class="btn">Glasses</button>
             <button onclick="cocktailRepository.fetchFilteredList('a', 'strAlcoholic')" type="button"
-                class="btn btn-lg">Alcoholic/Non-Alcoholic</button>
+                class="btn">Alcoholic/Non-Alcoholic</button>
             <input class="btn btn-primary reset" type="reset" value="Reset">
+            <!-- Rename Reset button? to "start over" -->
         </div>
-
+        <h3 id="step2" style="display:none">Step 2: Select an ingredient </h3>
         <ul id="options" class="filtered-options list-group" style="display:none"></ul>
+        <h3 id="step3" style="display:none">Step 3: Select a drink!</h3>
         <ul id="drinks" class="drinks list-group" style="display:none"></ul>
 
         <!-- Modal -->
@@ -48,22 +72,22 @@
             </div>
         </div>
 
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+        <script src="src/js/promise-polyfill.js"></script>
+        <script src="src/js/fetch-polyfill.js"></script>
+        <script src="src/js/scripts.js"></script>
+        <script src="src/js/tota11y.min.js"></script>
+
     </div>
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-    <script src="src/js/promise-polyfill.js"></script>
-    <script src="src/js/fetch-polyfill.js"></script>
-    <script src="src/js/scripts.js"></script>
-    <script src="src/js/tota11y.min.js"></script>
-
-
 
 </body>
 
