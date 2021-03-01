@@ -1,7 +1,9 @@
-//Mobile view is not centered
-
 let cocktailRepository = (function () {
   let filteredOptionsObj = {};
+  let step2 = document.querySelector('#step2');
+  let step3 = document.querySelector('#step3');
+  let drinks = document.querySelector('.drinks');
+  let options = document.querySelector('.filtered-options');
 
   function getIngredients(selectedDrink) {
     let recipeArray = [];
@@ -73,6 +75,7 @@ let cocktailRepository = (function () {
   function addDrinkListItem(drink) {
     step3.style.display = 'block';
     drinks.style.display = 'block';
+
     let drinkItem = document.createElement('li');
     drinkItem.classList.add('group-list-item');
     let drinkButton = document.createElement('button');
@@ -170,15 +173,15 @@ let cocktailRepository = (function () {
     }
   }
 
+  document.querySelector('.reset').addEventListener('click', function () {
+    step2.style.display = 'block';
+    step3.style.display = 'none';
+    drinks.style.display = 'none';
+    document.querySelector('.filtered-options').innerHTML = '';
+    document.querySelector('.drinks').innerHTML = '';
+  });
+
   return {
     fetchFilteredList: fetchFilteredList,
   };
 })();
-
-document.querySelector('.reset').addEventListener('click', function () {
-  drinks.style.display = 'none';
-  step2.style.display = 'none';
-  step3.style.display = 'none';
-  document.querySelector('.filtered-options').innerHTML = '';
-  document.querySelector('.drinks').innerHTML = '';
-});
