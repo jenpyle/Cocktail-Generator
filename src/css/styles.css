@@ -17,15 +17,7 @@
   padding: 10px;
   margin: 0px;
   font-family: Georgia, 'Times New Roman', Times, serif;
-}
-
-.page-header__title {
-  font-family: 'Ribeye Marrow', cursive;
-  border-style: double;
-}
-
-.filter li {
-  list-style: none;
+  text-align: center;
 }
 
 body {
@@ -33,40 +25,13 @@ body {
   line-height: normal;
 }
 
-.container {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.page-header {
-  max-width: 100%;
-  margin: auto;
-  padding: 20px;
-  border-bottom: 1px solid rosybrown;
-}
-
-.page-header img {
-  display: inline-flex;
-  flex-wrap: wrap;
-  width: 10%;
-  border-radius: 20%;
-}
-
-/* .page-header img:hover {
-} */
-
-.modal-body {
-  padding: 20px;
-}
-
 button,
 .btn {
   border: none;
-  /* font-family: inherit; */
   background-color: var(--primary-color);
   color: var(--secondary-background-color);
   text-decoration: none;
-  padding: 10px;
+  height: auto;
   border-radius: 3px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.3);
   transition: 0.4s opacity;
@@ -81,12 +46,53 @@ button:focus {
   opacity: 0.8;
 }
 
+.page-header {
+  margin: auto;
+  padding: 10px;
+  border-bottom: 1px solid rosybrown;
+}
+
+.page-header img {
+  border-radius: 20%;
+  width: 100px;
+  padding: 2px;
+}
+
+.page-header__title {
+  font-family: 'Ribeye Marrow', cursive;
+  font-weight: 600;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
 .filtered-options {
+  list-style: none;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 300px;
+}
+
+.filter li {
   list-style: none;
 }
 
 .drinks {
   list-style: none;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 300px;
+}
+
+.modal {
+  text-align: left;
 }
 
 .modal-img {
@@ -95,4 +101,48 @@ button:focus {
 
 .modal__ingredients {
   padding-left: 30px;
+}
+
+@media (max-width: 800px) {
+  .container {
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+  .btn,
+  button,
+  .filtered-options,
+  .drinks {
+    width: 100%;
+  }
+}
+
+@media (max-width: 630px) {
+  .page-header__title {
+    font-size: 35px;
+  }
+  .page-header img {
+    width: 80px;
+  }
+}
+
+@media (max-width: 535px) {
+  .page-header__title {
+    font-size: 30px;
+  }
+  .page-header img {
+    width: 75px;
+  }
+}
+
+@media all and (min-width: 800px) and (max-width: 1000px) {
+  h3 {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1100px) {
+  button,
+  .btn {
+    width: 330px;
+  }
 }
