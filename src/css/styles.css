@@ -36,7 +36,7 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-evenly;
-  width: 100%;
+  max-width: 100%;
 }
 
 .page-header__title {
@@ -119,6 +119,18 @@ button:focus {
 
 .modal__ingredients {
   padding-left: 30px;
+}
+
+@media (max-width: 400px) {
+  .p1 {
+    flex-shrink: 0;
+  }
+  .p2 {
+    flex-shrink: 0;
+  }
+  .flex-wrapper {
+    padding: 3px;
+  }
 }
 
 @media (max-width: 1535px) {
