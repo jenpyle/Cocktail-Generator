@@ -128,9 +128,9 @@ button:focus {
   .p2 {
     flex-shrink: 0;
   }
-  .flex-wrapper {
+  /* .flex-wrapper {
     padding: 3px;
-  }
+  } */
 }
 
 @media (max-width: 1535px) {
