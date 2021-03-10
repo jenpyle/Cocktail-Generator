@@ -2,6 +2,8 @@ let blackList = ['ass', 'fuck', 'shit', '69', 'fuk', 'bitch', 'f**k', 'sex'];
 
 let cocktailRepository = (function () {
   let filteredOptionsObj = {};
+  let s2 = document.querySelector('#s2');
+  let s3 = document.querySelector('#s3');
   let step2 = document.querySelector('#step2');
   let step3 = document.querySelector('#step3');
   let drinks = document.querySelector('.drinks');
@@ -76,8 +78,9 @@ let cocktailRepository = (function () {
 
   function addDrinkListItem(drink) {
     console.log('in addDrinkListItem()');
-    step3.style.display = 'block';
+    s3.style.display = 'block';
     drinks.style.display = 'block';
+    step3.style.display = 'block';
 
     let drinkItem = document.createElement('li');
     drinkItem.classList.add('group-list-item');
@@ -120,6 +123,7 @@ let cocktailRepository = (function () {
   }
 
   function addFilteredListItem(filterLetter, itemValue) {
+    s2.style.display = 'block';
     step2.style.display = 'block';
     options.style.display = 'block';
     let element = document.querySelector('.filtered-options');
@@ -166,6 +170,7 @@ let cocktailRepository = (function () {
   }
 
   function fetchFilteredList(filterLetter, strOption, text) {
+    s3.style.display = 'none';
     step3.style.display = 'none';
     drinks.style.display = 'none';
     document.querySelector('.selected-category').innerHTML = text;
@@ -193,6 +198,8 @@ let cocktailRepository = (function () {
   }
 
   document.querySelector('.reset').addEventListener('click', function () {
+    s2.style.display = 'none';
+    s3.style.display = 'none';
     step2.style.display = 'none';
     step3.style.display = 'none';
     drinks.style.display = 'none';
