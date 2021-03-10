@@ -1,3 +1,5 @@
+let blackList = ['ass', 'fuck', 'shit', '69', 'fuk', 'bitch', 'f**k', 'sex'];
+
 let cocktailRepository = (function () {
   let filteredOptionsObj = {};
   let step2 = document.querySelector('#step2');
@@ -73,6 +75,7 @@ let cocktailRepository = (function () {
   }
 
   function addDrinkListItem(drink) {
+    console.log('in addDrinkListItem()');
     step3.style.display = 'block';
     drinks.style.display = 'block';
 
@@ -97,10 +100,23 @@ let cocktailRepository = (function () {
     });
   }
 
+  function filterBadDrinks(drink) {
+    let isBlackListed = false;
+    let wordArray = drink.strDrink.toLowerCase().split(/[\s-]+/);
+    blackList.forEach(function (badWord) {
+      if (wordArray.includes(badWord)) {
+        isBlackListed = true;
+      }
+    });
+    return !isBlackListed;
+  }
+
   function fetchDrinksByFilter(filterLetter, itemValue) {
     return fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?${filterLetter}=${itemValue}`)
       .then((response) => response.json())
-      .then((json) => json.drinks);
+      .then((json) => {
+        return json.drinks.filter(filterBadDrinks);
+      });
   }
 
   function addFilteredListItem(filterLetter, itemValue) {
@@ -150,6 +166,8 @@ let cocktailRepository = (function () {
   }
 
   function fetchFilteredList(filterLetter, strOption, text) {
+    step3.style.display = 'none';
+    drinks.style.display = 'none';
     document.querySelector('.selected-category').innerHTML = text;
     if (filteredOptionsObj[strOption]) {
       //checks if this key is in the object already
@@ -175,7 +193,7 @@ let cocktailRepository = (function () {
   }
 
   document.querySelector('.reset').addEventListener('click', function () {
-    step2.style.display = 'block';
+    step2.style.display = 'none';
     step3.style.display = 'none';
     drinks.style.display = 'none';
     document.querySelector('.filtered-options').innerHTML = '';
